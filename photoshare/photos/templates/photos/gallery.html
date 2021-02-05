@@ -26,8 +26,9 @@
             <div class="card-header">카테고리</div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">전체</li>
-              <li class="list-group-item">Cras justo odio</li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
+              {% for category in categories %}
+              <li class="list-group-item">{{category.name}}</li>
+              {% endfor %}
               <a
                 href="{% url 'add' %}"
                 class="btn btn-block btn-dark btn-sm m-1"
@@ -38,74 +39,27 @@
         </div>
         <div class="col-md-9">
           <div class="row">
+            {% for photo in photos %}
             <div class="col-md-4">
               <div class="card my-2">
                 <img
                   class="image-thumbnail"
-                  src="https://www.cdc.gov/importation/images/cat.jpg"
+                  src="{{photo.image.url}}"
                   alt="카드 이미지 캡"
                 />
                 <div class="card-body">
-                  <small>카테고리: 펫</small>
+                  <small>카테고리: {{photo.category.name}}</small>
                 </div>
                 <a
-                  href="{% url 'photo' 5 %}"
+                  href="{% url 'photo' photo.id %}"
                   class="btn btn-outline-dark btn-sm m-1"
                   >보기</a
                 >
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="card my-2">
-                <img
-                  class="image-thumbnail"
-                  src="https://static.scientificamerican.com/sciam/cache/file/92E141F8-36E4-4331-BB2EE42AC8674DD3_source.jpg?w=590&h=800&62C6A28D-D2CA-4635-AA7017C94E6DDB72"
-                  alt="카드 이미지 캡"
-                />
-                <div class="card-body">
-                  <small>카테고리: 펫</small>
-                </div>
-                <a
-                  href="{% url 'photo' 5 %}"
-                  class="btn btn-outline-dark btn-sm m-1"
-                  >보기</a
-                >
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card my-2">
-                <img
-                  class="image-thumbnail"
-                  src="https://static.scientificamerican.com/sciam/cache/file/92E141F8-36E4-4331-BB2EE42AC8674DD3_source.jpg?w=590&h=800&62C6A28D-D2CA-4635-AA7017C94E6DDB72"
-                  alt="카드 이미지 캡"
-                />
-                <div class="card-body">
-                  <small>카테고리: 펫</small>
-                </div>
-                <a
-                  href="{% url 'photo' 5 %}"
-                  class="btn btn-outline-dark btn-sm m-1"
-                  >보기</a
-                >
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card my-2">
-                <img
-                  class="image-thumbnail"
-                  src="https://static.scientificamerican.com/sciam/cache/file/92E141F8-36E4-4331-BB2EE42AC8674DD3_source.jpg?w=590&h=800&62C6A28D-D2CA-4635-AA7017C94E6DDB72"
-                  alt="카드 이미지 캡"
-                />
-                <div class="card-body">
-                  <small>카테고리: 펫</small>
-                </div>
-                <a
-                  href="{% url 'photo' 5 %}"
-                  class="btn btn-outline-dark btn-sm m-1"
-                  >보기</a
-                >
-              </div>
-            </div>
+            {% empty %}
+            <h3>사진을 등록해주세요...</h3>
+            {% endfor %}
           </div>
         </div>
       </div>
