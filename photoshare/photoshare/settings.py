@@ -12,16 +12,31 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# config.json location
+config = os.path.join(BASE_DIR, 'photoshare/config.json')
+
+with open(config, 'r') as f:
+    config = json.loads(f.read())
+
+
+def get_secret(setting, config=config):
+    try:
+        return config[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '==mvozsgkfu+f$gcay!2215g&@&bvv^n^u$x@l_ss^suo6%(s-'
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -129,3 +144,16 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# not add extra pramaters to url
+AWS_QUERYSTRING_AUTH = False
+# use django-storages, boto3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# iam user access key
+AWS_ACCESS_KEY_ID = get_secret("AWS_ACCESS_KEY_ID")
+# iam user access secret key
+AWS_SECRET_ACCESS_KEY = get_secret("AWS_SECRET_ACCESS_KEY")
+
+AWS_STORAGE_BUCKET_NAME = get_secret("AWS_STORAGE_BUCKET_NAME")  # s3 bucket
+AWS_DEFAULT_ACL = 'public-read'
