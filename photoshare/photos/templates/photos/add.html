@@ -18,9 +18,11 @@
           <a href="{% url 'gallery' %}" class="btn btn-dark my-3">뒤로가기</a>
           <div class="card">
             <form method="POST" action="" enctype="multipart/form-data">
+              {% csrf_token %}
               <div class="form-group m-3">
                 <label>장소에 관한 설명</label>
                 <input
+                  required
                   name="description"
                   type="text"
                   class="form-control"
@@ -49,7 +51,12 @@
 
               <div class="form-group m-3">
                 <label>사진 업로드</label>
-                <input name="image" type="file" class="form-control-file" />
+                <input
+                  required
+                  name="image"
+                  type="file"
+                  class="form-control-file"
+                />
               </div>
               <button type="submit" class="btn btn-primary m-3">등록</button>
             </form>
