@@ -29,7 +29,7 @@ def addPhoto(request):
 
     if request.method == 'POST':
         data = request.POST
-        image = request.FILES.get('image')
+        images = request.FILES.getlist('image')
 
         if data['category'] != 'none':
             category = Category.objects.get(id=data['category'])
@@ -39,11 +39,12 @@ def addPhoto(request):
         else:
             category = None
 
-        photo = Photo.objects.create(
-            category=category,
-            description=data['description'],
-            image=image,
-        )
+        for image in images:
+            photo = Photo.objects.create(
+                category=category,
+                description=data['description'],
+                image=image,
+            )
 
         return redirect('gallery')
 
